@@ -3,31 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Repair PDF PRO - Full & Partial Repair</title>
+<title>Repair PDF </title>
 <meta name="description" content="Repair PDF files online. Choose individual pages or repair the entire PDF with multi-page preview and download.">
 <style>
 body { font-family: Arial,sans-serif; background:#f0f2f5; margin:0; color:#333; }
 header { background: linear-gradient(135deg,#9333ea,#7c3aed); color:#fff; text-align:center; padding:20px; }
 header h1 { margin:0; font-size:2rem; }
 header p { margin:5px 0 0; font-size:1rem; }
-.container { max-width:900px; margin:20px auto; padding:20px; background:#fff; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-.upload { border:2px dashed #9333ea; padding:20px; text-align:center; cursor:pointer; border-radius:10px; transition:0.3s; }
+.button-group { display:flex; justify-content:center; gap:15px; margin:15px 0; flex-wrap:wrap; }
+.button-group a { text-decoration:none; }
+.button-group button { padding:12px 20px; border:none; border-radius:10px; 
+                       font-weight:600; cursor:pointer; transition:0.3s; color:#fff; }
+.button-group button:hover { transform: scale(1.05); }
+.all-tools-btn { background: linear-gradient(135deg,#9333ea,#7c3aed); }
+.home-btn { background: linear-gradient(135deg,#f97316,#f59e0b); }
+.container { max-width:900px; margin:20px auto; padding:20px; background:#fff; 
+             border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.upload { border:2px dashed #9333ea; padding:20px; text-align:center; cursor:pointer; 
+         border-radius:10px; transition:0.3s; }
 .upload:hover { background:#f9f9f9; }
 .viewer { display:flex; flex-wrap:wrap; gap:10px; margin-top:15px; }
 .pdfPage { position:relative; width:48%; border:1px solid #ccc; border-radius:10px; overflow:hidden; }
 canvas { width:100%; display:block; }
 .pageCheckbox { position:absolute; top:10px; left:10px; background:#fff; border-radius:5px; padding:2px 6px; font-weight:bold; }
-button { margin-top:10px; padding:12px 20px; border:none; border-radius:10px; background: linear-gradient(135deg,#9333ea,#7c3aed); color:#fff; font-weight:600; cursor:pointer; transition:0.3s; }
-button:hover { transform: scale(1.05); }
+button.tool-btn { margin-top:10px; padding:12px 20px; border:none; border-radius:10px; 
+                  background: linear-gradient(135deg,#9333ea,#7c3aed); color:#fff; font-weight:600; cursor:pointer; transition:0.3s; }
+button.tool-btn:hover { transform: scale(1.05); }
 .ad-placeholder { background:#ccc; height:60px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; margin:15px 0; }
 </style>
 </head>
 <body>
 
 <header>
-<h1>Repair PDF PRO</h1>
+<h1>Repair PDF </h1>
 <p>Choose individual pages or repair the entire PDF</p>
 </header>
+
+<div class="button-group">
+  <a href="https://easyusehub.blogspot.com/p/free-pdf-tools-easyusehub.html?m=1">
+    <button class="all-tools-btn">All PDF Tools</button>
+  </a>
+  <a href="https://easyusehub.blogspot.com/?m=1">
+    <button class="home-btn">Home</button>
+  </a>
+</div>
 
 <div class="ad-placeholder">Top Ad Placeholder</div>
 
@@ -38,10 +57,12 @@ button:hover { transform: scale(1.05); }
 
 <div class="viewer" id="pdfViewer"></div>
 
-<div class="controls">
-<button id="repairSelectedBtn">Repair Selected Pages</button>
-<button id="repairAllBtn">Repair Entire PDF</button>
-<a id="downloadLink" style="display:none;" download="repaired.pdf">Download Repaired PDF</a>
+<div class="button-group">
+<button id="repairSelectedBtn" class="tool-btn">Repair Selected Pages</button>
+<button id="repairAllBtn" class="tool-btn">Repair Entire PDF</button>
+<a id="downloadLink" style="display:none;" download="repaired.pdf">
+  <button class="tool-btn">Download Repaired PDF</button>
+</a>
 </div>
 
 <div class="ad-placeholder">Middle Ad Placeholder</div>
@@ -127,7 +148,6 @@ async function repairPages(pages){
 
   downloadLink.href = newPdf.output('bloburl');
   downloadLink.style.display = 'inline-block';
-  downloadLink.innerText = 'Download Repaired PDF';
   alert('PDF repair ready!');
 }
 
