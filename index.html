@@ -2,162 +2,220 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Repair PDF </title>
-<meta name="description" content="Repair PDF files online. Choose individual pages or repair the entire PDF with multi-page preview and download.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Repair PDF – EasyUseHub</title>
 <style>
-body { font-family: Arial,sans-serif; background:#f0f2f5; margin:0; color:#333; }
-header { background: linear-gradient(135deg,#9333ea,#7c3aed); color:#fff; text-align:center; padding:20px; }
-header h1 { margin:0; font-size:2rem; }
-header p { margin:5px 0 0; font-size:1rem; }
-.button-group { display:flex; justify-content:center; gap:15px; margin:15px 0; flex-wrap:wrap; }
-.button-group a { text-decoration:none; }
-.button-group button { padding:12px 20px; border:none; border-radius:10px; 
-                       font-weight:600; cursor:pointer; transition:0.3s; color:#fff; }
-.button-group button:hover { transform: scale(1.05); }
-.all-tools-btn { background: linear-gradient(135deg,#9333ea,#7c3aed); }
-.home-btn { background: linear-gradient(135deg,#f97316,#f59e0b); }
-.container { max-width:900px; margin:20px auto; padding:20px; background:#fff; 
-             border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-.upload { border:2px dashed #9333ea; padding:20px; text-align:center; cursor:pointer; 
-         border-radius:10px; transition:0.3s; }
-.upload:hover { background:#f9f9f9; }
-.viewer { display:flex; flex-wrap:wrap; gap:10px; margin-top:15px; }
-.pdfPage { position:relative; width:48%; border:1px solid #ccc; border-radius:10px; overflow:hidden; }
+:root { --primary: #9333ea; --bg: #f8fafc; }
+body, html { margin:0; padding:0; font-family: 'Segoe UI', Tahoma, sans-serif; background:var(--bg); overflow-x: hidden; }
+
+header { background: linear-gradient(135deg,#9333ea,#7c3aed); color:#fff; padding:20px; text-align:center; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+header h1 { margin:0; font-size:1.6rem; }
+.container { width: 100%; max-width: 900px; margin:auto; padding:10px; box-sizing: border-box; text-align:center; }
+
+/* --- 🔥 Rakib235: Ad Bridges --- */
+.custom-ad-bridge {
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: white; padding: 15px; margin: 15px auto; border-radius: 12px; cursor: pointer;
+    width: 95%; max-width: 650px; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.25); display: inline-block; box-sizing: border-box; text-align: left;
+}
+.ad-title { font-size: 15px; font-weight: bold; display: block; margin-bottom: 4px; }
+.ad-desc { font-size: 11px; opacity: 0.9; display: block; margin-bottom: 8px; line-height: 1.4; }
+.ad-btn { background: #fbbf24; color: #000; padding: 5px 15px; border-radius: 5px; font-weight: bold; font-size: 10px; border:none; text-transform: uppercase; }
+
+/* --- 🔥 Rakib235: Push Ad with X --- */
+#push-notification {
+    position: fixed; bottom: -150px; right: 20px;
+    width: 85%; max-width: 300px; background: #fff; border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: flex; align-items: center; 
+    padding: 12px; z-index: 10000; transition: 0.6s; border-left: 5px solid var(--primary); text-align: left;
+}
+#push-notification.active { bottom: 20px; }
+#push-notification img { width: 35px; height: 35px; margin-right: 12px; border-radius: 6px; }
+.close-push { position: absolute; top: 5px; right: 10px; font-size: 18px; cursor: pointer; color: #bbb; font-weight: bold; }
+
+/* Tool UI */
+#upload-box { border:3px dashed var(--primary); padding:30px; text-align:center; cursor:pointer; border-radius:12px; background:#fff; margin:15px 0; color: var(--primary); font-weight: bold; }
+.viewer { display:flex; flex-wrap:wrap; gap: 10px; justify-content: center; margin-top:15px; }
+.pdfPage { position:relative; width:46%; min-width: 140px; border:1px solid #ddd; border-radius:10px; overflow:hidden; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 canvas { width:100%; display:block; }
-.pageCheckbox { position:absolute; top:10px; left:10px; background:#fff; border-radius:5px; padding:2px 6px; font-weight:bold; }
-button.tool-btn { margin-top:10px; padding:12px 20px; border:none; border-radius:10px; 
-                  background: linear-gradient(135deg,#9333ea,#7c3aed); color:#fff; font-weight:600; cursor:pointer; transition:0.3s; }
-button.tool-btn:hover { transform: scale(1.05); }
-.ad-placeholder { background:#ccc; height:60px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; margin:15px 0; }
+.pageCheckbox { position:absolute; top:8px; left:8px; width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); z-index: 10; }
+
+.controls { display:flex; flex-wrap:wrap; justify-content:center; gap: 10px; margin: 15px 0; }
+.nav-btn { padding:10px 18px; border:none; border-radius:8px; background:var(--primary); color:#fff; cursor:pointer; font-weight: bold; font-size: 14px; transition: 0.3s; }
+.btn-dark { background: #1e293b; }
+.btn-success { background: #10b981; }
+.nav-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+#toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#10b981; color:#fff; padding:10px 20px; border-radius:8px; display:none; z-index:9999; font-weight: bold; }
+#loader { display:none; color: var(--primary); font-weight: bold; margin: 10px 0; }
 </style>
 </head>
 <body>
 
+<div id="push-notification">
+    <span class="close-push" onclick="document.getElementById('push-notification').classList.remove('active');">&times;</span>
+    <div style="display:flex; align-items:center; width:100%;" onclick="window.open('https://easyusehub.blogspot.com', '_blank')">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968313.png" alt="icon">
+        <div class="push-text">
+            <b style="font-size:13px; color:#333;">🚀 46+ Premium Free Tool Ready</b>
+            <p style="font-size:10px; color:#666; margin:0;">Fast & Secure Access at EasyUseHub.</p>
+        </div>
+    </div>
+</div>
+
 <header>
-<h1>Repair PDF </h1>
-<p>Choose individual pages or repair the entire PDF</p>
+    <h1>Repair PDF Tool</h1>
+    <p>Fix corrupted pages or rebuild your PDF easily.</p>
 </header>
 
-<div class="button-group">
-  <a href="https://easyusehub.blogspot.com/p/free-pdf-tools-online.html">
-    <button class="all-tools-btn">All PDF Tools</button>
-  </a>
-  <a href="https://easyusehub.blogspot.com/?m=1">
-    <button class="home-btn">Home</button>
-  </a>
-</div>
-
-<div class="ad-placeholder">Top Ad Placeholder</div>
-
 <div class="container">
+    <div class="custom-ad-bridge" onclick="window.open('https://easyusehub.blogspot.com', '_blank')">
+        <span class="ad-title">🚀 Try 46+ Premium Free Web Tools!</span>
+        <span class="ad-desc">Explore the best PDF editors, compressors and calculators for free.</span>
+        <button class="ad-btn">Open EasyUseHub</button>
+    </div>
 
-<div class="upload" onclick="fileInput.click()">Click to Upload PDF</div>
-<input type="file" id="fileInput" accept="application/pdf" hidden>
+    <div id="upload-box" onclick="document.getElementById('fileInput').click()">📁 Click to Upload PDF File</div>
+    <input type="file" id="fileInput" accept="application/pdf" hidden>
 
-<div class="viewer" id="pdfViewer"></div>
+    <div id="loader">⏳ Processing PDF... Please wait</div>
 
-<div class="button-group">
-<button id="repairSelectedBtn" class="tool-btn">Repair Selected Pages</button>
-<button id="repairAllBtn" class="tool-btn">Repair Entire PDF</button>
-<a id="downloadLink" style="display:none;" download="repaired.pdf">
-  <button class="tool-btn">Download Repaired PDF</button>
-</a>
+    <div class="viewer" id="pdfViewer"></div>
+
+    <div class="controls">
+        <button id="repairSelectedBtn" class="nav-btn btn-success">Repair Selected</button>
+        <button id="repairAllBtn" class="nav-btn btn-success">Repair Entire PDF</button>
+        <a id="downloadLink" style="display:none;" download="repaired_easyusehub.pdf">
+            <button class="nav-btn">Download PDF</button>
+        </a>
+    </div>
+
+    <div class="controls">
+        <button class="nav-btn btn-dark" onclick="window.location.href='https://easyusehub.blogspot.com/'">🏠 Home</button>
+        <button class="nav-btn btn-dark" onclick="window.location.href='https://easyusehub.blogspot.com/p/free-pdf-tools-online.html'">📂 All PDF Tools</button>
+    </div>
+
+    <div class="custom-ad-bridge" style="background: linear-gradient(135deg, #7c3aed, #9333ea);" onclick="window.open('https://easyusehub.blogspot.com/p/ultimate-calculators-hub.html', '_blank')">
+        <span class="ad-title">🔢 Smart Online Calculators</span>
+        <span class="ad-desc">Loan EMI, Age, and BMI calculators in one place for free.</span>
+        <button class="ad-btn" style="background:#fff; color:#7c3aed;">Try Now</button>
+    </div>
+
+    <div class="custom-ad-bridge" style="background: linear-gradient(135deg, #059669, #10b981);" onclick="window.open('https://easyusehub.blogspot.com/p/image-compressor.html', '_blank')">
+        <span class="ad-title">⚡ High-Speed Image Compressor</span>
+        <span class="ad-desc">Compress images without losing quality in seconds.</span>
+        <button class="ad-btn" style="background:#fff; color:#059669;">Compress Now</button>
+    </div>
 </div>
 
-<div class="ad-placeholder">Middle Ad Placeholder</div>
-
-</div>
+<div id="toast">✅ PDF Repaired Successfully!</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
+const pdfjs = window['pdfjs-dist/build/pdf'];
+pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
 const fileInput = document.getElementById('fileInput');
 const viewer = document.getElementById('pdfViewer');
-const repairSelectedBtn = document.getElementById('repairSelectedBtn');
-const repairAllBtn = document.getElementById('repairAllBtn');
+const loader = document.getElementById('loader');
 const downloadLink = document.getElementById('downloadLink');
+const toast = document.getElementById('toast');
 
-let pdfDoc, uploadedFile;
+let pdfDoc = null, uploadedFile = null, currentBlobUrl = null;
 let selectedPages = new Set();
 
 fileInput.addEventListener('change', async (e) => {
-  uploadedFile = e.target.files[0];
-  if(!uploadedFile) return;
-  const arrayBuffer = await uploadedFile.arrayBuffer();
-  pdfjsLib.getDocument({data: arrayBuffer}).promise.then(doc => {
-    pdfDoc = doc;
-    renderAllPages();
-  });
+    uploadedFile = e.target.files[0];
+    if(!uploadedFile) return;
+    
+    loader.style.display = 'block';
+    viewer.innerHTML = '';
+    
+    try {
+        const arrayBuffer = await uploadedFile.arrayBuffer();
+        pdfDoc = await pdfjs.getDocument({data: arrayBuffer}).promise;
+        await renderAllPages();
+        document.getElementById('push-notification').classList.add('active');
+    } catch (err) {
+        alert("Error: Corrupted PDF file.");
+    }
+    loader.style.display = 'none';
 });
 
 async function renderAllPages(){
-  viewer.innerHTML = '';
-  selectedPages.clear();
-  for(let p=1; p<=pdfDoc.numPages; p++){
-    const page = await pdfDoc.getPage(p);
-    const viewport = page.getViewport({scale:1.5});
-    const canvas = document.createElement('canvas');
-    canvas.width = viewport.width; canvas.height = viewport.height;
-    await page.render({canvasContext: canvas.getContext('2d'), viewport}).promise;
+    selectedPages.clear();
+    const fragment = document.createDocumentFragment();
+    
+    for(let p=1; p<=pdfDoc.numPages; p++){
+        const page = await pdfDoc.getPage(p);
+        const viewport = page.getViewport({scale: 0.8}); // Zoom fix for mobile
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width; canvas.height = viewport.height;
+        await page.render({canvasContext: canvas.getContext('2d'), viewport}).promise;
 
-    const pageDiv = document.createElement('div');
-    pageDiv.classList.add('pdfPage');
+        const pageDiv = document.createElement('div');
+        pageDiv.className = 'pdfPage';
 
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.classList.add('pageCheckbox');
-    checkbox.value = p;
-    checkbox.addEventListener('change', (e)=>{
-      if(e.target.checked) selectedPages.add(p);
-      else selectedPages.delete(p);
-    });
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'pageCheckbox';
+        checkbox.onchange = (e) => {
+            if(e.target.checked) selectedPages.add(p);
+            else selectedPages.delete(p);
+        };
 
-    pageDiv.appendChild(checkbox);
-    pageDiv.appendChild(canvas);
+        pageDiv.appendChild(checkbox);
+        pageDiv.appendChild(canvas);
+        fragment.appendChild(pageDiv);
+    }
+    viewer.appendChild(fragment);
+}
 
-    // Simulated error highlight
-    if(Math.random()<0.3){
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = 'rgba(255,0,0,0.3)';
-      ctx.fillRect(0,0,canvas.width,30);
+async function repairPages(pagesSet){
+    if(!pdfDoc) return alert('Please upload a PDF first.');
+    if(pagesSet.size === 0) return alert('Select at least one page.');
+
+    loader.style.display = 'block';
+    const { jsPDF } = window.jspdf;
+    const newPdf = new jsPDF();
+    const sortedPages = Array.from(pagesSet).sort((a,b) => a-b);
+
+    for(let i=0; i<sortedPages.length; i++){
+        const pNum = sortedPages[i];
+        const page = await pdfDoc.getPage(pNum);
+        const viewport = page.getViewport({scale: 2}); // High quality repair
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width; canvas.height = viewport.height;
+        await page.render({canvasContext: canvas.getContext('2d'), viewport}).promise;
+        
+        const imgData = canvas.toDataURL('image/jpeg', 0.9);
+        if(i > 0) newPdf.addPage();
+        
+        const pw = newPdf.internal.pageSize.getWidth();
+        const ph = newPdf.internal.pageSize.getHeight();
+        newPdf.addImage(imgData, 'JPEG', 0, 0, pw, ph);
     }
 
-    viewer.appendChild(pageDiv);
-  }
+    if(currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+    const blob = newPdf.output('blob');
+    currentBlobUrl = URL.createObjectURL(blob);
+    
+    downloadLink.href = currentBlobUrl;
+    downloadLink.style.display = 'inline-block';
+    loader.style.display = 'none';
+    
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 3000);
 }
 
-async function repairPages(pages){
-  if(!uploadedFile) return alert('Upload a PDF first.');
-  if(pages.size===0) return alert('Select pages to repair.');
-
-  const { jsPDF } = window.jspdf;
-  const newPdf = new jsPDF();
-
-  for(const p of pages){
-    const page = await pdfDoc.getPage(p);
-    const viewport = page.getViewport({scale:2});
-    const canvas = document.createElement('canvas');
-    canvas.width = viewport.width; canvas.height = viewport.height;
-    await page.render({canvasContext: canvas.getContext('2d'), viewport}).promise;
-    const imgData = canvas.toDataURL('image/png');
-    if(newPdf.getNumberOfPages()>0) newPdf.addPage();
-    newPdf.addImage(imgData,'PNG',0,0,newPdf.internal.pageSize.getWidth(), newPdf.internal.pageSize.getHeight());
-  }
-
-  downloadLink.href = newPdf.output('bloburl');
-  downloadLink.style.display = 'inline-block';
-  alert('PDF repair ready!');
-}
-
-repairSelectedBtn.addEventListener('click', ()=> repairPages(selectedPages));
-
-repairAllBtn.addEventListener('click', ()=>{
-  const allPages = new Set();
-  for(let i=1; i<=pdfDoc.numPages; i++) allPages.add(i);
-  repairPages(allPages);
-});
+document.getElementById('repairSelectedBtn').onclick = () => repairPages(selectedPages);
+document.getElementById('repairAllBtn').onclick = () => {
+    const all = new Set();
+    for(let i=1; i<=pdfDoc.numPages; i++) all.add(i);
+    repairPages(all);
+};
 </script>
 
 </body>
